@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { hashPassword } from "@/utils/hash";
-import type { SignupInput } from "@/schemas/auth.schema";
+import { hashPassword, verifyPassword } from "@/utils/hash";
+import type {
+  SignupInput,
+  LoginInput,
+} from "@/schemas/auth.schema";
 
 export async function signup(data: SignupInput) {
   const existingUser = await prisma.user.findUnique({
@@ -41,6 +44,48 @@ return {
 };
 }
 
-export async function login() {
+export async function verifyCredentials(data: LoginInput) {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: data.email,
+    },
+  });
 
+  if (!user) {
+    return null;
+  }
+
+  const passwordMatches = await verifyPassword(
+    data.password,
+    user.passwordHash
+  );
+
+  if (!passwordMatches) {
+    return null;
+  }
+
+  return user;
+}
+
+export async function login(data: LoginInput) {
+  const user = await verifyCredentials(data);
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Invalid email or password.",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Login successful.",
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      workspaceId: user.workspaceId,
+    },
+  };
 }
