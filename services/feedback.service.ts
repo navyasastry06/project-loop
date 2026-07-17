@@ -79,3 +79,31 @@ export async function deleteFeedback(
     message: "Feedback deleted successfully.",
   };
 }
+
+export async function saveAnalysis(
+  id: string,
+  workspaceId: string,
+  analysis: {
+    sentiment: "POS" | "NEU" | "NEG";
+    category: string;
+    summary: string;
+  }
+) {
+  const feedback = await prisma.feedback.updateMany({
+    where: {
+      id,
+      workspaceId,
+    },
+    data: {
+      sentiment: analysis.sentiment,
+      category: analysis.category,
+      summary: analysis.summary,
+      analyzedAt: new Date(),
+    },
+  });
+
+  return {
+    success: true,
+    feedback,
+  };
+}

@@ -35,6 +35,8 @@ export default function FeedbackPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [analysis, setAnalysis] = useState<any>(null);
+const [analyzingId, setAnalyzingId] = useState<string | null>(null);
 
 const [editForm, setEditForm] = useState({
   content: "",
@@ -113,6 +115,36 @@ async function handleUpdate() {
   }
 }
 
+async function handleAnalyze(id: string, content: string) {
+  setAnalyzingId(id);
+  setError("");
+
+  try {
+    const response = await fetch("/api/ai/analyze", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+  id,
+  feedback: content,
+}),
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+
+    setAnalysis(result.analysis);
+  } catch {
+    setError("AI analysis failed.");
+  } finally {
+    setAnalyzingId(null);
+  }
+}
   useEffect(() => {
     loadFeedbacks();
   }, []);
@@ -282,8 +314,9 @@ async function handleUpdate() {
 
   <td>{feedback.status}</td>
 
-  <td className="space-x-2">
+ <td className="space-x-2">
   <button
+    type="button"
     onClick={() => {
       setEditingId(feedback.id);
 
@@ -294,19 +327,30 @@ async function handleUpdate() {
         customerLabel: feedback.customerLabel ?? "",
       });
     }}
-    className="rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600"
+    className="rounded bg-yellow-500 px-3 py-1 text-white"
   >
     Edit
   </button>
 
   <button
+    type="button"
     onClick={() => handleDelete(feedback.id)}
-    className="rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700"
+    className="rounded bg-red-600 px-3 py-1 text-white"
   >
     Delete
   </button>
+
+  <button
+    type="button"
+    onClick={() => handleAnalyze(feedback.id, feedback.content)}
+    disabled={analyzingId === feedback.id}
+    className="rounded bg-blue-600 px-3 py-1 text-white"
+  >
+    {analyzingId === feedback.id ? "Analyzing..." : "Analyze"}
+  </button>
 </td>
 </tr>
+
                 ))}
               </tbody>
             </table>
@@ -392,6 +436,25 @@ async function handleUpdate() {
       </div>
 
     </div>
+  </div>
+)}
+{analysis && (
+  <div className="rounded-xl bg-white p-6 shadow">
+    <h2 className="mb-4 text-xl font-bold">
+      AI Analysis
+    </h2>
+
+    <p>
+      <strong>Sentiment:</strong> {analysis.sentiment}
+    </p>
+
+    <p>
+      <strong>Category:</strong> {analysis.category}
+    </p>
+
+    <p>
+      <strong>Summary:</strong> {analysis.summary}
+    </p>
   </div>
 )}
     </main>
