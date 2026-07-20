@@ -6,6 +6,10 @@ import {
   updateFeedback,
   deleteFeedback,
 } from "@/services/feedback.service";
+import {
+  canManageFeedback,
+  type UserRole,
+} from "@/lib/permissions";
 
 type RouteContext = {
   params: Promise<{
@@ -31,6 +35,15 @@ export async function PATCH(
         }
       );
     }
+    if (!canManageFeedback(session.user.role as UserRole)) {
+  return NextResponse.json(
+    {
+      success: false,
+      message: "Forbidden",
+    },
+    { status: 403 }
+  );
+}
 
     const { id } = await params;
 

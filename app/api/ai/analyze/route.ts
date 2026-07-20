@@ -4,6 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { analyzeFeedback } from "@/services/ai.service";
 import { getCurrentSession } from "@/lib/session";
 import { saveAnalysis } from "@/services/feedback.service";
+import {
+  canAnalyzeFeedback,
+  type UserRole,
+} from "@/lib/permissions";
+
 
 export async function POST(request: Request) {
   try {
@@ -18,6 +23,16 @@ export async function POST(request: Request) {
         { status: 401 }
       );
     }
+
+    if (!canAnalyzeFeedback(session.user.role as UserRole)) {
+  return NextResponse.json(
+    {
+      success: false,
+      message: "Forbidden",
+    },
+    { status: 403 }
+  );
+}
 
     const body = await request.json();
 

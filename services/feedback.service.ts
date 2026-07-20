@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { CreateFeedbackInput } from "@/schemas/feedback.schema";
+import { generateEmbedding } from "@/services/embedding.service";
 
 export async function createFeedback(
   data: CreateFeedbackInput,
@@ -12,6 +13,15 @@ export async function createFeedback(
       sourceRef: data.sourceRef || null,
       customerLabel: data.customerLabel || null,
       workspaceId,
+    },
+  });
+
+  const vector = await generateEmbedding(data.content);
+
+  await prisma.embedding.create({
+    data: {
+      feedbackId: feedback.id,
+      vector,
     },
   });
 

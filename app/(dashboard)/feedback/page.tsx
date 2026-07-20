@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
 import Input from "@/components/ui/Input";
+
 
 type FeedbackForm = {
   content: string;
@@ -29,6 +31,8 @@ export default function FeedbackPage() {
     formState: { isSubmitting },
   } = useForm<FeedbackForm>();
 
+  const { data: session } = useSession();
+
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -44,6 +48,7 @@ const [editForm, setEditForm] = useState({
   sourceRef: "",
   customerLabel: "",
 });
+
 
   async function loadFeedbacks() {
     const response = await fetch("/api/feedback");
@@ -181,6 +186,7 @@ async function handleAnalyze(id: string, content: string) {
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto flex max-w-5xl flex-col gap-8">
+        {session?.user.role !== "VIEWER" && (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 rounded-xl bg-white p-8 shadow"
@@ -238,6 +244,7 @@ async function handleAnalyze(id: string, content: string) {
               : "Submit Feedback"}
           </button>
         </form>
+)}
 
         <div className="mb-4 flex items-end gap-4">
 
@@ -315,39 +322,43 @@ async function handleAnalyze(id: string, content: string) {
   <td>{feedback.status}</td>
 
  <td className="space-x-2">
-  <button
-    type="button"
-    onClick={() => {
-      setEditingId(feedback.id);
+  {session?.user.role !== "VIEWER" && (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          setEditingId(feedback.id);
 
-      setEditForm({
-        content: feedback.content,
-        channel: feedback.channel,
-        sourceRef: feedback.sourceRef ?? "",
-        customerLabel: feedback.customerLabel ?? "",
-      });
-    }}
-    className="rounded bg-yellow-500 px-3 py-1 text-white"
-  >
-    Edit
-  </button>
+          setEditForm({
+            content: feedback.content,
+            channel: feedback.channel,
+            sourceRef: feedback.sourceRef ?? "",
+            customerLabel: feedback.customerLabel ?? "",
+          });
+        }}
+        className="rounded bg-yellow-500 px-3 py-1 text-white"
+      >
+        Edit
+      </button>
 
-  <button
-    type="button"
-    onClick={() => handleDelete(feedback.id)}
-    className="rounded bg-red-600 px-3 py-1 text-white"
-  >
-    Delete
-  </button>
+      <button
+        type="button"
+        onClick={() => handleDelete(feedback.id)}
+        className="rounded bg-red-600 px-3 py-1 text-white"
+      >
+        Delete
+      </button>
 
-  <button
-    type="button"
-    onClick={() => handleAnalyze(feedback.id, feedback.content)}
-    disabled={analyzingId === feedback.id}
-    className="rounded bg-blue-600 px-3 py-1 text-white"
-  >
-    {analyzingId === feedback.id ? "Analyzing..." : "Analyze"}
-  </button>
+      <button
+        type="button"
+        onClick={() => handleAnalyze(feedback.id, feedback.content)}
+        disabled={analyzingId === feedback.id}
+        className="rounded bg-blue-600 px-3 py-1 text-white"
+      >
+        {analyzingId === feedback.id ? "Analyzing..." : "Analyze"}
+      </button>
+    </>
+  )}
 </td>
 </tr>
 
@@ -359,7 +370,7 @@ async function handleAnalyze(id: string, content: string) {
         </div>
         
       </div>
-      {editingId && (
+      {editingId && session?.user.role !== "VIEWER" && (
   <div className="rounded-xl bg-white p-8 shadow">
     <h2 className="mb-4 text-2xl font-bold">
       Edit Feedback

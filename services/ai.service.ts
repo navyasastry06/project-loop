@@ -23,31 +23,74 @@ Feedback:
     contents: prompt,
   });
 
-const text = response.text ?? "";
+  const text = response.text ?? "";
 
-const jsonStart = text.indexOf("{");
-const jsonEnd = text.lastIndexOf("}");
+  const jsonStart = text.indexOf("{");
+  const jsonEnd = text.lastIndexOf("}");
 
-const cleaned = text.slice(jsonStart, jsonEnd + 1);
-const analysis = JSON.parse(cleaned);
+  const cleaned = text.slice(jsonStart, jsonEnd + 1);
+  const analysis = JSON.parse(cleaned);
 
-let sentiment: "POS" | "NEU" | "NEG";
+  let sentiment: "POS" | "NEU" | "NEG";
 
-switch (analysis.sentiment.toLowerCase()) {
-  case "positive":
-    sentiment = "POS";
-    break;
+  switch (analysis.sentiment.toLowerCase()) {
+    case "positive":
+      sentiment = "POS";
+      break;
 
-  case "negative":
-    sentiment = "NEG";
-    break;
+    case "negative":
+      sentiment = "NEG";
+      break;
 
-  default:
-    sentiment = "NEU";
+    default:
+      sentiment = "NEU";
+  }
+
+  return {
+    ...analysis,
+    sentiment,
+  };
 }
 
-return {
-  ...analysis,
-  sentiment,
-};
+export async function generateInsights(
+  feedbacks: {
+    content: string;
+    sentiment: string | null;
+    category: string | null;
+  }[]
+) {
+  const prompt = `
+You are a product analytics expert.
+
+Analyze the following customer feedback data:
+
+${JSON.stringify(feedbacks)}
+
+Generate exactly 4 short business insights.
+
+Return ONLY valid JSON.
+
+{
+  "insights": [
+    "Insight 1",
+    "Insight 2",
+    "Insight 3",
+    "Insight 4"
+  ]
+}
+`;
+
+  const response = await gemini.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: prompt,
+  });
+
+  const text = response.text ?? "";
+
+  const jsonStart = text.indexOf("{");
+  const jsonEnd = text.lastIndexOf("}");
+
+  const cleaned = text.slice(jsonStart, jsonEnd + 1);
+
+  return JSON.parse(cleaned);
 }
