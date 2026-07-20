@@ -40,14 +40,56 @@ export default function FeedbackPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [analysis, setAnalysis] = useState<any>(null);
-const [analyzingId, setAnalyzingId] = useState<string | null>(null);
+  const [analyzingId, setAnalyzingId] = useState<string | null>(null);
 
-const [editForm, setEditForm] = useState({
-  content: "",
-  channel: "",
-  sourceRef: "",
-  customerLabel: "",
-});
+  // CSV Import states
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [importResult, setImportResult] = useState<string | null>(null);
+
+  const [editForm, setEditForm] = useState({
+    content: "",
+    channel: "",
+    sourceRef: "",
+    customerLabel: "",
+  });
+
+  async function handleCsvUpload(e: React.FormEvent) {
+    e.preventDefault();
+    if (!csvFile) return;
+
+    setUploading(true);
+    setError("");
+    setSuccess("");
+    setImportResult(null);
+
+    const formData = new FormData();
+    formData.append("file", csvFile);
+
+    try {
+      const response = await fetch("/api/feedback/import", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess(result.message);
+        setImportResult(`Successfully imported ${result.totalImported} items (${result.failedRows} failed/skipped).`);
+        setCsvFile(null);
+        // Reset file input element
+        const fileInput = document.getElementById("csv-file-input") as HTMLInputElement;
+        if (fileInput) fileInput.value = "";
+        await loadFeedbacks();
+      } else {
+        setError(result.message || "Failed to import CSV.");
+      }
+    } catch (err) {
+      setError("An error occurred during CSV upload.");
+    } finally {
+      setUploading(false);
+    }
+  }
 
 
   async function loadFeedbacks() {
@@ -184,67 +226,84 @@ async function handleAnalyze(id: string, content: string) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
+    <div>
       <div className="mx-auto flex max-w-5xl flex-col gap-8">
         {session?.user.role !== "VIEWER" && (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 rounded-xl bg-white p-8 shadow"
-        >
-          <h1 className="text-3xl font-bold">
-            Add Feedback
-          </h1>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            {/* Manual Form */}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-4 rounded-xl bg-white p-8 shadow"
+            >
+              <h2 className="text-2xl font-bold text-gray-900">Add Feedback</h2>
 
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium">
-              Feedback
-            </label>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium text-gray-700">Feedback</label>
+                <textarea
+                  rows={5}
+                  className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500 text-sm"
+                  {...register("content")}
+                  required
+                />
+              </div>
 
-            <textarea
-              rows={5}
-              className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500"
-              {...register("content")}
-            />
+              <Input label="Channel" required {...register("channel")} />
+              <Input label="Source Reference" {...register("sourceRef")} />
+              <Input label="Customer Label" {...register("customerLabel")} />
+
+              {error && <p className="text-sm text-red-600">{error}</p>}
+              {success && <p className="text-sm text-green-600">{success}</p>}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-2 rounded-lg bg-blue-600 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-50 text-sm"
+              >
+                {isSubmitting ? "Submitting..." : "Submit Feedback"}
+              </button>
+            </form>
+
+            {/* Bulk CSV Upload */}
+            <div className="flex flex-col gap-4 rounded-xl bg-white p-8 shadow">
+              <h2 className="text-2xl font-bold text-gray-900">Bulk CSV Import</h2>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Upload a CSV document containing feedback records to analyze them in bulk. 
+                Supported headers are: <code className="bg-gray-100 px-1 rounded font-bold">content</code> (required), 
+                <code className="bg-gray-100 px-1 rounded font-bold">channel</code>, 
+                <code className="bg-gray-100 px-1 rounded font-bold">sourceRef</code>, and 
+                <code className="bg-gray-100 px-1 rounded font-bold">customerLabel</code>.
+              </p>
+
+              <form onSubmit={handleCsvUpload} className="flex-1 flex flex-col justify-between gap-4 mt-2">
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-medium text-gray-700">Select CSV File</label>
+                  <input
+                    id="csv-file-input"
+                    type="file"
+                    accept=".csv"
+                    onChange={(e) => setCsvFile(e.target.files?.[0] || null)}
+                    className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    required
+                  />
+                </div>
+
+                {importResult && (
+                  <p className="text-sm text-blue-600 bg-blue-50/50 p-3 rounded-lg border border-blue-100">
+                    {importResult}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={uploading || !csvFile}
+                  className="w-full rounded-lg bg-blue-600 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-50 text-sm mt-auto"
+                >
+                  {uploading ? "Importing..." : "📤 Upload CSV"}
+                </button>
+              </form>
+            </div>
           </div>
-
-          <Input
-            label="Channel"
-            {...register("channel")}
-          />
-
-          <Input
-            label="Source Reference"
-            {...register("sourceRef")}
-          />
-
-          <Input
-            label="Customer Label"
-            {...register("customerLabel")}
-          />
-
-          {error && (
-            <p className="text-red-600">
-              {error}
-            </p>
-          )}
-
-          {success && (
-            <p className="text-green-600">
-              {success}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="rounded-lg bg-blue-600 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isSubmitting
-              ? "Submitting..."
-              : "Submit Feedback"}
-          </button>
-        </form>
-)}
+        )}
 
         <div className="mb-4 flex items-end gap-4">
 
@@ -468,6 +527,6 @@ async function handleAnalyze(id: string, content: string) {
     </p>
   </div>
 )}
-    </main>
+    </div>
   );
 }

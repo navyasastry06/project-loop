@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 
 type SignupForm = {
@@ -12,26 +13,28 @@ type SignupForm = {
 
 export default function SignupPage() {
   const { register, handleSubmit } = useForm<SignupForm>();
+  const router = useRouter();
 
-async function onSubmit(data: SignupForm) {
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  async function onSubmit(data: SignupForm) {
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-  const result = await response.json();
+    const result = await response.json();
 
-  console.log(result);
+    console.log(result);
 
-  if (result.success) {
-    alert("Workspace created successfully!");
-  } else {
-    alert(result.message);
+    if (result.success) {
+      alert("Workspace created successfully!");
+      router.push("/login");
+    } else {
+      alert(result.message);
+    }
   }
-}
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-100">

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
 import { getCurrentSession } from "@/lib/session";
+import Sidebar from "@/components/layout/Sidebar";
 
 export default async function DashboardLayout({
   children,
@@ -15,8 +16,11 @@ export default async function DashboardLayout({
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      {children}
-    </main>
+    <div className="flex h-screen">
+      <Sidebar />
+      <main className="flex-1 overflow-y-auto bg-gray-50 p-8">
+        {children}
+      </main>
+    </div>
   );
 }

@@ -1,13 +1,24 @@
 import { semanticSearch } from "./search.service";
 import { gemini } from "@/lib/gemini";
 
-export async function askLoop(question: string) {
-  const results = await semanticSearch(question);
+export async function askLoop(
+  question: string,
+  workspaceId: string
+) {
+  const results = await semanticSearch(question, workspaceId, 5);
+
+  if (results.length === 0) {
+    return {
+      answer:
+        "There is not enough feedback data to answer this question.",
+      references: [],
+    };
+  }
 
   const context = results
     .map(
       (item, index) =>
-        `${index + 1}. ${item.feedback.content}`
+        `${index + 1}. [${item.feedback.sentiment || "Unknown"}] ${item.feedback.content}`
     )
     .join("\n");
 
@@ -39,6 +50,8 @@ Return plain text only.
     references: results.map((r) => ({
       id: r.feedback.id,
       content: r.feedback.content,
+      sentiment: r.feedback.sentiment,
+      category: r.feedback.category,
       score: Number(r.score.toFixed(3)),
     })),
   };

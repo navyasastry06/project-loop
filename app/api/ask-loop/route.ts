@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await askLoop(body.question);
+    const result = await askLoop(body.question, session.user.workspaceId);
 
     return NextResponse.json({
       success: true,
