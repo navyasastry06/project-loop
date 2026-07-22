@@ -133,9 +133,6 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 space-y-6 text-left"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#2B4DA2]/10 bg-[#FFF6D6] px-4 py-1.5 text-xs font-extrabold text-[#2B4DA2] uppercase tracking-wider">
-              <Stars className="h-3 w-3 text-[#4C74D9]" /> Loop AI Presentation Slide 01
-            </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-none text-[#2B4DA2] font-heading">
               Feedback <br />
@@ -192,9 +189,6 @@ export default function Home() {
             
             {/* Pitch Text */}
             <div className="lg:col-span-5 space-y-6 text-left relative z-10">
-              <span className="text-xs uppercase tracking-widest text-[#2B4DA2]/80 font-extrabold bg-white px-3 py-1.5 rounded-full border border-[#2B4DA2]/10">
-                Interactive Deck — Slide 02
-              </span>
               <h2 className="text-4xl font-black text-[#2B4DA2] leading-tight font-heading">
                 Semantic AI <br />
                 Query Engine
@@ -279,12 +273,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SLIDE 3: Features Pitch Grid */}
+        {/* Features Pitch Grid */}
         <section className="space-y-16">
-          <div className="text-center space-y-4 max-w-2xl mx-auto">
-            <span className="text-xs uppercase tracking-widest text-[#2B4DA2]/80 font-extrabold bg-[#FFF6D6] px-3 py-1.5 rounded-full border border-[#2B4DA2]/10">
-              Overview — Slide 03
-            </span>
+          <div className="text-center max-w-2xl mx-auto space-y-4">
             <h2 className="text-4xl md:text-5xl font-black text-[#2B4DA2] tracking-tight font-heading">
               Platform Overview
             </h2>
@@ -328,9 +319,6 @@ export default function Home() {
           <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#FFF6D6]/40 rounded-full blur-2xl pointer-events-none" />
           
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <span className="text-xs uppercase tracking-widest text-[#2B4DA2]/80 font-extrabold bg-[#FAFAFC] px-3 py-1.5 rounded-full border border-[#2B4DA2]/10">
-              Presentation End — Slide 04
-            </span>
             <h2 className="text-4xl md:text-6xl font-black text-[#2B4DA2] tracking-tight leading-none font-heading">
               Ready to present <br />your insights?
             </h2>

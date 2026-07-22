@@ -22,14 +22,14 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, slideNo: "01" },
-  { href: "/feedback", label: "Feedback", icon: MessageSquare, slideNo: "02" },
-  { href: "/reports", label: "Reports", icon: FileText, slideNo: "03" },
-  { href: "/themes", label: "Themes", icon: Tags, slideNo: "04" },
-  { href: "/voc", label: "Voice of Customer", icon: Sparkles, slideNo: "05" },
-  { href: "/ask-loop", label: "Ask LOOP", icon: Bot, slideNo: "06" },
-  { href: "/users", label: "Users", icon: Users, adminOnly: true, slideNo: "07" },
-  { href: "/settings", label: "Settings", icon: Settings, slideNo: "08" },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/feedback", label: "Feedback", icon: MessageSquare },
+  { href: "/reports", label: "Reports", icon: FileText },
+  { href: "/themes", label: "Themes", icon: Tags },
+  { href: "/voc", label: "Voice of Customer", icon: Sparkles },
+  { href: "/ask-loop", label: "Ask LOOP", icon: Bot },
+  { href: "/users", label: "Users", icon: Users, adminOnly: true },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -103,7 +103,6 @@ export default function Sidebar() {
             <span className="text-2xl font-black text-[#4C74D9] block hover:rotate-12 transition-transform duration-300">L</span>
           ) : (
             <div className="flex flex-col">
-              <span className="text-xs uppercase tracking-widest text-[#2B4DA2]/60 dark:text-[#FAFAFC]/60 font-semibold mb-0.5">Presentation Deck</span>
               <div className="flex items-center gap-2">
                 <span className="text-xl font-black text-[#4C74D9] dark:text-[#FAFAFC]">LOOP AI</span>
                 <span className="text-[10px] font-bold bg-[#D8C4FF] dark:bg-[#A98AE5] text-[#2B4DA2] dark:text-[#15223F] px-1.5 py-0.5 rounded-md">v1.0</span>
@@ -132,14 +131,6 @@ export default function Sidebar() {
                 }`}
                 title={isCollapsed ? item.label : undefined}
               >
-                {/* Slide Number Tag */}
-                {!isCollapsed && (
-                  <span className={`text-[10px] font-bold ${
-                    isActive ? "text-[#FAFAFC]/70" : "text-[#2B4DA2]/40 dark:text-[#FAFAFC]/40"
-                  }`}>
-                    {item.slideNo}
-                  </span>
-                )}
 
                 {/* Icon with subtle hover rotation */}
                 <Icon className={`h-5 w-5 flex-shrink-0 transition-transform group-hover:rotate-6 duration-300 ${

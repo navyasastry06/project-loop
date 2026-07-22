@@ -62,9 +62,6 @@ export default function SignupPage() {
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-[#D8C4FF]/40 rounded-full blur-2xl" />
           
           <div className="relative z-10">
-            <span className="text-xs uppercase tracking-widest text-[#2B4DA2]/80 font-extrabold bg-[#FFF6D6] px-3 py-1.5 rounded-full border border-[#2B4DA2]/10">
-              Slide 02 — Workspace Setup
-            </span>
             <h2 className="text-4xl md:text-5xl font-black text-[#2B4DA2] leading-tight mt-6 tracking-tight font-heading">
               Create your intelligence space.
             </h2>

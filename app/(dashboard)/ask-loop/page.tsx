@@ -84,9 +84,6 @@ export default function AskLoopPage() {
       {/* Title Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#2B4DA2]/10 pb-5">
         <div className="text-left">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#2B4DA2]/50 bg-[#FFF6D6] px-2.5 py-1 rounded-full border border-[#2B4DA2]/10">
-            Slide 05 — Interactive Q&A
-          </span>
           <h1 className="text-4xl font-black tracking-tight text-[#2B4DA2] mt-2.5 font-heading">
             Ask LOOP AI
           </h1>
