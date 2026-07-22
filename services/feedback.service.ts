@@ -53,18 +53,38 @@ export async function updateFeedback(
   workspaceId: string,
   data: CreateFeedbackInput
 ) {
+  const updateData: any = {
+    content: data.content,
+    channel: data.channel,
+    sourceRef: data.sourceRef || null,
+    customerLabel: data.customerLabel || null,
+  };
+
+  if (data.status) {
+    updateData.status = data.status;
+  }
+
   const feedback = await prisma.feedback.updateMany({
     where: {
       id,
       workspaceId,
     },
-    data: {
-      content: data.content,
-      channel: data.channel,
-      sourceRef: data.sourceRef || null,
-      customerLabel: data.customerLabel || null,
-    },
+    data: updateData,
   });
+
+  try {
+    const vector = await generateEmbedding(data.content);
+    await prisma.embedding.upsert({
+      where: { feedbackId: id },
+      update: { vector },
+      create: {
+        feedbackId: id,
+        vector,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to update embedding vector:", error);
+  }
 
   return {
     success: true,

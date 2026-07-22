@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-spartan: var(--font-spartan);
+  --font-poppins: var(--font-poppins);
+  --background: #FAFAFC;
+  --foreground: #374151;
+  --primary-navy: #2B4DA2;
+  --primary-blue: #4C74D9;
+  --cream: #FFF6D6;
+  --soft-pink: #F8B4D9;
+  --light-lavender: #D8C4FF;
+  --pastel-purple: #A98AE5;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins), sans-serif;
+  --font-heading: var(--font-spartan), sans-serif;
+  --color-primary-navy: var(--primary-navy);
+  --color-primary-blue: var(--primary-blue);
+  --color-cream: var(--cream);
+  --color-soft-pink: var(--soft-pink);
+  --color-light-lavender: var(--light-lavender);
+  --color-pastel-purple: var(--pastel-purple);
+  --color-text-dark: #374151;
+  --color-bg-cream: #FAFAFC;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root.dark {
+  --background: #16223F;
+  --foreground: #FAFAFC;
+  --primary-navy: #FAFAFC;
+  --primary-blue: #7395EE;
+  --cream: #1F2D54;
+  --soft-pink: #F8B4D9;
+  --light-lavender: #2F2A4A;
+  --pastel-purple: #A98AE5;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-spartan), sans-serif;
+}
+
+/* Custom Canva-style grid patterns */
+.editorial-dots {
+  background-image: radial-gradient(rgba(43, 77, 162, 0.04) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+:root.dark .editorial-dots {
+  background-image: radial-gradient(rgba(250, 250, 252, 0.03) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Subtle paper texture overlay */
+.paper-texture {
+  position: relative;
+}
+.paper-texture::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.015;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+/* Gentle floating animation for illustrations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Interactive hover effect for cards */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 12px 24px -10px rgba(43, 77, 162, 0.12), 0 8px 16px -8px rgba(43, 77, 162, 0.08);
+  border-color: rgba(43, 77, 162, 0.2);
+}
+

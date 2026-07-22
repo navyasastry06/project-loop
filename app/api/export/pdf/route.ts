@@ -29,9 +29,32 @@ function wrapText(
   return lines;
 }
 
-export async function GET() {
+function cleanText(text: string): string {
+  if (!text) return "";
+  let clean = text
+    .replace(/[\u2018\u2019]/g, "'") // smart single quotes
+    .replace(/[\u201C\u201D]/g, '"') // smart double quotes
+    .replace(/[\u2013\u2014]/g, "-") // dashes
+    .replace(/\u2022/g, "*") // bullet
+    .replace(/\u2122/g, "(TM)")
+    .replace(/\u00A0/g, " ");
+
+  let result = "";
+  for (let i = 0; i < clean.length; i++) {
+    const code = clean.charCodeAt(i);
+    if ((code >= 32 && code <= 126) || (code >= 160 && code <= 255)) {
+      result += clean[i];
+    } else {
+      result += "";
+    }
+  }
+  return result;
+}
+
+export async function GET(request: Request) {
   try {
     const session = await getCurrentSession();
+
 
     if (!session?.user) {
       return NextResponse.json(
@@ -40,14 +63,8 @@ export async function GET() {
       );
     }
 
-    const feedbacks = await prisma.feedback.findMany({
-      where: {
-        workspaceId: session.user.workspaceId,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const { searchParams } = new URL(request.url);
+    const reportId = searchParams.get("id");
 
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -61,118 +78,339 @@ export async function GET() {
     let page = pdfDoc.addPage([pageWidth, pageHeight]);
     let y = pageHeight - margin;
 
-    // Premium Header
-    page.drawRectangle({
-      x: 0,
-      y: pageHeight - 100,
-      width: pageWidth,
-      height: 100,
-      color: rgb(0.06, 0.09, 0.16), // Dark Slate Gray #111827
-    });
+    if (reportId) {
+      const report = await prisma.report.findFirst({
+        where: {
+          id: reportId,
+          workspaceId: session.user.workspaceId,
+        },
+        include: {
+          generatedBy: true,
+          workspace: true,
+        },
+      });
 
-    page.drawText("LOOP AI Feedback intelligence", {
-      x: margin,
-      y: pageHeight - 45,
-      size: 20,
-      font: bold,
-      color: rgb(1, 1, 1),
-    });
-
-    page.drawText(`Workspace Feedback Report • ${new Date().toLocaleDateString()}`, {
-      x: margin,
-      y: pageHeight - 65,
-      size: 10,
-      font,
-      color: rgb(0.6, 0.65, 0.75),
-    });
-
-    y = pageHeight - 140;
-
-    // Sub-header summary
-    page.drawText("Executive Summary Metrics", {
-      x: margin,
-      y,
-      size: 14,
-      font: bold,
-      color: rgb(0.06, 0.09, 0.16),
-    });
-
-    y -= 25;
-
-    const positive = feedbacks.filter((f) => f.sentiment === "POS").length;
-    const neutral = feedbacks.filter((f) => f.sentiment === "NEU").length;
-    const negative = feedbacks.filter((f) => f.sentiment === "NEG").length;
-
-    page.drawText(`Total Feedback: ${feedbacks.length}  |  Positive: ${positive}  |  Neutral: ${neutral}  |  Negative: ${negative}`, {
-      x: margin,
-      y,
-      size: 11,
-      font: bold,
-      color: rgb(0.3, 0.4, 0.5),
-    });
-
-    y -= 35;
-
-    feedbacks.forEach((feedback, index) => {
-      // Calculate estimated space needed for this item
-      const contentLines = wrapText(feedback.content, contentWidth - 20, font, 10);
-      const neededHeight = 45 + contentLines.length * 14;
-
-      // Add page break if we are out of height
-      if (y - neededHeight < margin) {
-        page = pdfDoc.addPage([pageWidth, pageHeight]);
-        y = pageHeight - margin - 30;
+      if (!report) {
+        return NextResponse.json(
+          { success: false, message: "Report not found" },
+          { status: 404 }
+        );
       }
 
-      // Draw light gray background border card
+      const content = report.contentJson as {
+        totalFeedback?: number;
+        positive?: number;
+        neutral?: number;
+        negative?: number;
+        insights?: {
+          insights?: string[];
+        };
+      };
+
+      page.drawRectangle({
+        x: 0,
+        y: pageHeight - 110,
+        width: pageWidth,
+        height: 110,
+        color: rgb(0.06, 0.09, 0.16),
+      });
+
+      page.drawText("LOOP AI Feedback Intelligence", {
+        x: margin,
+        y: pageHeight - 45,
+        size: 20,
+        font: bold,
+        color: rgb(1, 1, 1),
+      });
+
+      page.drawText(`AI Executive Analytics Report`, {
+        x: margin,
+        y: pageHeight - 70,
+        size: 13,
+        font: bold,
+        color: rgb(0.23, 0.51, 0.96),
+      });
+
+      page.drawText(`Workspace: ${cleanText(report.workspace.name)}`, {
+        x: margin,
+        y: pageHeight - 90,
+        size: 9,
+        font,
+        color: rgb(0.6, 0.65, 0.75),
+      });
+
+      y = pageHeight - 150;
+
+      page.drawText(cleanText(report.title), {
+        x: margin,
+        y,
+        size: 16,
+        font: bold,
+        color: rgb(0.06, 0.09, 0.16),
+      });
+
+      y -= 25;
+
+      const startDateStr = new Date(report.periodStart).toLocaleDateString();
+      const endDateStr = new Date(report.periodEnd).toLocaleDateString();
+      page.drawText(`Analysis Period: ${startDateStr} - ${endDateStr}`, {
+        x: margin,
+        y,
+        size: 10,
+        font,
+        color: rgb(0.4, 0.45, 0.55),
+      });
+
+      y -= 15;
+
+      page.drawText(`Generated By: ${cleanText(report.generatedBy.name)} (${report.generatedBy.email}) on ${new Date(report.createdAt).toLocaleDateString()}`, {
+        x: margin,
+        y,
+        size: 10,
+        font,
+        color: rgb(0.4, 0.45, 0.55),
+      });
+
+      y -= 40;
+
+      page.drawText("Executive Summary Metrics", {
+        x: margin,
+        y,
+        size: 12,
+        font: bold,
+        color: rgb(0.06, 0.09, 0.16),
+      });
+
+      y -= 30;
+
+      const totalFeedback = content.totalFeedback ?? 0;
+      const positive = content.positive ?? 0;
+      const neutral = content.neutral ?? 0;
+      const negative = content.negative ?? 0;
+
       page.drawRectangle({
         x: margin,
-        y: y - neededHeight + 10,
+        y: y - 50,
         width: contentWidth,
-        height: neededHeight - 10,
+        height: 65,
         borderColor: rgb(0.9, 0.92, 0.95),
         borderWidth: 1,
         color: rgb(0.98, 0.98, 0.99),
       });
 
-      // Item title index
-      page.drawText(`Feedback #${index + 1}`, {
+      page.drawText(`Total Volume: ${totalFeedback} records analyzed`, {
         x: margin + 15,
-        y: y - 20,
+        y: y - 10,
         size: 10,
         font: bold,
         color: rgb(0.12, 0.16, 0.22),
       });
 
-      // Status pill mock
-      const statusText = `[${feedback.channel}] • ${feedback.sentiment || "UNANALYZED"}`;
-      page.drawText(statusText, {
-        x: pageWidth - margin - 15 - font.widthOfTextAtSize(statusText, 8),
-        y: y - 20,
-        size: 8,
-        font: bold,
-        color:
-          feedback.sentiment === "POS"
-            ? rgb(0.05, 0.5, 0.3) // Green
-            : feedback.sentiment === "NEG"
-            ? rgb(0.8, 0.1, 0.2) // Red
-            : rgb(0.4, 0.4, 0.45),
+      page.drawText(`Positive: ${positive} (${totalFeedback > 0 ? ((positive / totalFeedback) * 100).toFixed(0) : 0}%)`, {
+        x: margin + 15,
+        y: y - 30,
+        size: 10,
+        font,
+        color: rgb(0.05, 0.5, 0.3),
       });
 
-      let lineY = y - 35;
-      contentLines.forEach((line) => {
-        page.drawText(line, {
-          x: margin + 15,
-          y: lineY,
+      page.drawText(`Neutral: ${neutral} (${totalFeedback > 0 ? ((neutral / totalFeedback) * 100).toFixed(0) : 0}%)`, {
+        x: margin + 150,
+        y: y - 30,
+        size: 10,
+        font,
+        color: rgb(0.7, 0.45, 0.05),
+      });
+
+      page.drawText(`Negative: ${negative} (${totalFeedback > 0 ? ((negative / totalFeedback) * 100).toFixed(0) : 0}%)`, {
+        x: margin + 280,
+        y: y - 30,
+        size: 10,
+        font,
+        color: rgb(0.8, 0.1, 0.2),
+      });
+
+      y -= 90;
+
+      page.drawText("AI Executive Insights", {
+        x: margin,
+        y,
+        size: 12,
+        font: bold,
+        color: rgb(0.06, 0.09, 0.16),
+      });
+
+      y -= 25;
+
+      const insightsList = content.insights?.insights ?? [];
+
+      if (insightsList.length === 0) {
+        page.drawText("No insights generated for this report.", {
+          x: margin,
+          y,
           size: 10,
           font,
-          color: rgb(0.2, 0.23, 0.28),
+          color: rgb(0.4, 0.45, 0.55),
         });
-        lineY -= 14;
+      } else {
+        for (const insight of insightsList) {
+          const insightLines = wrapText(cleanText(insight), contentWidth - 30, font, 10);
+          const neededHeight = 20 + insightLines.length * 14;
+
+          if (y - neededHeight < margin) {
+            page = pdfDoc.addPage([pageWidth, pageHeight]);
+            y = pageHeight - margin - 30;
+          }
+
+          page.drawRectangle({
+            x: margin,
+            y: y - neededHeight + 10,
+            width: contentWidth,
+            height: neededHeight - 10,
+            borderColor: rgb(0.9, 0.92, 0.95),
+            borderWidth: 1,
+            color: rgb(0.98, 0.98, 0.99),
+          });
+
+          page.drawText("*", {
+            x: margin + 15,
+            y: y - 20,
+            size: 12,
+            font: bold,
+            color: rgb(0.3, 0.45, 0.8),
+          });
+
+          let lineY = y - 20;
+          insightLines.forEach((line) => {
+            page.drawText(line, {
+              x: margin + 40,
+              y: lineY,
+              size: 10,
+              font,
+              color: rgb(0.2, 0.23, 0.28),
+            });
+            lineY -= 14;
+          });
+
+          y -= neededHeight + 10;
+        }
+      }
+    } else {
+      const feedbacks = await prisma.feedback.findMany({
+        where: {
+          workspaceId: session.user.workspaceId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
-      y -= neededHeight + 10;
-    });
+      page.drawRectangle({
+        x: 0,
+        y: pageHeight - 100,
+        width: pageWidth,
+        height: 100,
+        color: rgb(0.06, 0.09, 0.16),
+      });
+
+      page.drawText("LOOP AI Feedback Intelligence", {
+        x: margin,
+        y: pageHeight - 45,
+        size: 20,
+        font: bold,
+        color: rgb(1, 1, 1),
+      });
+
+      page.drawText(`Workspace Feedback Report • ${new Date().toLocaleDateString()}`, {
+        x: margin,
+        y: pageHeight - 65,
+        size: 10,
+        font,
+        color: rgb(0.6, 0.65, 0.75),
+      });
+
+      y = pageHeight - 140;
+
+      page.drawText("Executive Summary Metrics", {
+        x: margin,
+        y,
+        size: 14,
+        font: bold,
+        color: rgb(0.06, 0.09, 0.16),
+      });
+
+      y -= 25;
+
+      const positive = feedbacks.filter((f) => f.sentiment === "POS").length;
+      const neutral = feedbacks.filter((f) => f.sentiment === "NEU").length;
+      const negative = feedbacks.filter((f) => f.sentiment === "NEG").length;
+
+      page.drawText(`Total Feedback: ${feedbacks.length}  |  Positive: ${positive}  |  Neutral: ${neutral}  |  Negative: ${negative}`, {
+        x: margin,
+        y,
+        size: 11,
+        font: bold,
+        color: rgb(0.3, 0.4, 0.5),
+      });
+
+      y -= 35;
+
+      feedbacks.forEach((feedback, index) => {
+        const contentLines = wrapText(feedback.content, contentWidth - 20, font, 10);
+        const neededHeight = 45 + contentLines.length * 14;
+
+        if (y - neededHeight < margin) {
+          page = pdfDoc.addPage([pageWidth, pageHeight]);
+          y = pageHeight - margin - 30;
+        }
+
+        page.drawRectangle({
+          x: margin,
+          y: y - neededHeight + 10,
+          width: contentWidth,
+          height: neededHeight - 10,
+          borderColor: rgb(0.9, 0.92, 0.95),
+          borderWidth: 1,
+          color: rgb(0.98, 0.98, 0.99),
+        });
+
+        page.drawText(`Feedback #${index + 1}`, {
+          x: margin + 15,
+          y: y - 20,
+          size: 10,
+          font: bold,
+          color: rgb(0.12, 0.16, 0.22),
+        });
+
+        const statusText = `[${feedback.channel}] • ${feedback.sentiment || "UNANALYZED"}`;
+        page.drawText(statusText, {
+          x: pageWidth - margin - 15 - font.widthOfTextAtSize(statusText, 8),
+          y: y - 20,
+          size: 8,
+          font: bold,
+          color:
+            feedback.sentiment === "POS"
+              ? rgb(0.05, 0.5, 0.3)
+              : feedback.sentiment === "NEG"
+              ? rgb(0.8, 0.1, 0.2)
+              : rgb(0.4, 0.4, 0.45),
+        });
+
+        let lineY = y - 35;
+        contentLines.forEach((line) => {
+          page.drawText(line, {
+            x: margin + 15,
+            y: lineY,
+            size: 10,
+            font,
+            color: rgb(0.2, 0.23, 0.28),
+          });
+          lineY -= 14;
+        });
+
+        y -= neededHeight + 10;
+      });
+    }
 
     const pdfBytes = await pdfDoc.save();
 

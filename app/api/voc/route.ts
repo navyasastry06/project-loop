@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/session";
 import { generateVoiceOfCustomer } from "@/services/voc.service";
+import { handleApiError } from "@/utils/api-error";
 
 export async function GET() {
   try {
@@ -22,12 +23,6 @@ export async function GET() {
       ...report,
     });
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to generate Voice of Customer report.",
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, "Failed to generate Voice of Customer report.");
   }
 }

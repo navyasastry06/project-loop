@@ -8,6 +8,7 @@ import {
   canAnalyzeFeedback,
   type UserRole,
 } from "@/lib/permissions";
+import { handleApiError } from "@/utils/api-error";
 
 
 export async function POST(request: Request) {
@@ -58,14 +59,6 @@ export async function POST(request: Request) {
       analysis,
     });
   } catch (error) {
-    console.error("AI Analysis Error:", error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error.",
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, "Failed to analyze feedback.");
   }
 }

@@ -7,6 +7,7 @@ import {
   canManageReports,
   type UserRole,
 } from "@/lib/permissions";
+import { handleApiError } from "@/utils/api-error";
 
 export async function POST() {
   try {
@@ -86,16 +87,6 @@ export async function POST() {
       report,
     });
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to generate report.",
-      },
-      {
-        status: 500,
-      }
-    );
+    return handleApiError(error, "Failed to generate report.");
   }
 }

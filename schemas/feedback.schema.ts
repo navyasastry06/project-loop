@@ -23,6 +23,10 @@ export const createFeedbackSchema = z.object({
     .trim()
     .optional()
     .or(z.literal("")),
+
+  status: z
+    .enum(["NEW", "REVIEWED", "ACTIONED"])
+    .optional(),
 });
 
 export type CreateFeedbackInput = z.infer<

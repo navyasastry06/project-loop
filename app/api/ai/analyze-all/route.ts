@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
 import { analyzeFeedback } from "@/services/ai.service";
+import { handleApiError } from "@/utils/api-error";
 
 export async function POST() {
   try {
@@ -53,16 +54,6 @@ export async function POST() {
       message: `${processed} feedback analyzed successfully.`,
     });
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error.",
-      },
-      {
-        status: 500,
-      }
-    );
+    return handleApiError(error, "Failed to analyze all feedback.");
   }
 }

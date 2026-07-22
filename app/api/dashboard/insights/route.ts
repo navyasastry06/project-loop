@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentSession } from "@/lib/session";
 import { generateInsights } from "@/services/ai.service";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const session = await getCurrentSession();
 
@@ -18,10 +18,25 @@ export async function GET() {
       );
     }
 
+    const { searchParams } = new URL(request.url);
+    const startStr = searchParams.get("start");
+    const endStr = searchParams.get("end");
+
+    const workspaceId = session.user.workspaceId;
+
+    const whereClause: any = {
+      workspaceId,
+    };
+
+    if (startStr || endStr) {
+      const dateFilter: any = {};
+      if (startStr) dateFilter.gte = new Date(startStr);
+      if (endStr) dateFilter.lte = new Date(endStr);
+      whereClause.createdAt = dateFilter;
+    }
+
     const feedbacks = await prisma.feedback.findMany({
-      where: {
-        workspaceId: session.user.workspaceId,
-      },
+      where: whereClause,
       select: {
         content: true,
         sentiment: true,

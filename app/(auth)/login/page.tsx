@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import { signIn } from "next-auth/react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { LogIn } from "lucide-react";
 
 type LoginForm = {
   email: string;
@@ -24,88 +27,140 @@ export default function LoginPage() {
   const [success, setSuccess] = useState("");
 
   async function onSubmit(data: LoginForm) {
-  setError("");
-  setSuccess("");
+    setError("");
+    setSuccess("");
 
-  const result = await signIn("credentials", {
-    email: data.email,
-    password: data.password,
-    redirect: false,
-  });
+    const result = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
 
-  if (!result) {
-    setError("Something went wrong.");
-    return;
+    if (!result) {
+      setError("Something went wrong.");
+      return;
+    }
+
+    if (result.error) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    setSuccess("Login successful. Opening dashboard...");
+
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 1000);
   }
-
-  if (result.error) {
-    setError("Invalid email or password.");
-    return;
-  }
-
-  setSuccess("Login successful.");
-
-  setTimeout(() => {
-    router.push("/dashboard");
-  }, 1000);
-}
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full max-w-md flex-col gap-4 rounded-xl bg-white p-8 shadow-lg"
+    <main className="min-h-screen flex items-center justify-center bg-[#FAFAFC] text-[#374151] p-4 md:p-8 editorial-dots paper-texture">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full max-w-5xl bg-[#FFFFFF] rounded-[32px] border border-[#2B4DA2]/10 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2 min-h-[600px]"
       >
-        <h1 className="text-center text-3xl font-bold">
-          Welcome Back
-        </h1>
+        {/* Left Side: Illustration & Pitch */}
+        <div className="bg-[#D8C4FF] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#A98AE5]/30 rounded-full blur-3xl" />
+          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-[#FFF6D6]/40 rounded-full blur-2xl" />
+          
+          <div className="relative z-10">
+            <span className="text-xs uppercase tracking-widest text-[#2B4DA2]/60 font-extrabold bg-[#FFF6D6] px-3 py-1.5 rounded-full border border-[#2B4DA2]/10">
+              Slide 01 — Access Portal
+            </span>
+            <h2 className="text-4xl md:text-5xl font-black text-[#2B4DA2] leading-tight mt-6 tracking-tight font-heading">
+              Welcome back to LOOP AI.
+            </h2>
+            <p className="text-sm text-[#2B4DA2]/80 mt-4 leading-relaxed font-sans max-w-sm">
+              Discover customer sentiment, analyze reviews, and build reports in seconds.
+            </p>
+          </div>
 
-        <p className="text-center text-gray-500">
-          Login to your LOOP workspace
-        </p>
+          <div className="relative my-6 md:my-0 flex justify-center items-center z-10 animate-float">
+            <img 
+              src="/4.png" 
+              alt="LOOP AI Workflows" 
+              className="max-h-[300px] object-contain rounded-2xl"
+            />
+          </div>
 
-        <Input
-          label="Email"
-          type="email"
-          {...register("email")}
-        />
+          <div className="relative z-10 text-xs text-[#2B4DA2]/50 font-bold font-sans">
+            LOOP AI Feedback Intelligence Platform • © 2026
+          </div>
+        </div>
 
-        <Input
-          label="Password"
-          type="password"
-          {...register("password")}
-        />
+        {/* Right Side: Form */}
+        <div className="p-8 md:p-12 flex flex-col justify-center bg-[#FFFFFF]">
+          <div className="w-full max-w-sm mx-auto">
+            <h1 className="text-3xl font-black text-[#374151] tracking-tight font-heading">
+              Sign In
+            </h1>
+            <p className="text-sm text-[#374151]/60 mt-2 font-sans">
+              Enter your credentials to access your presentation workspace.
+            </p>
 
-        {error && (
-          <p className="text-sm text-red-600">
-            {error}
-          </p>
-        )}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="mt-8 flex flex-col gap-5"
+            >
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-extrabold uppercase tracking-wider text-[#374151]/50">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="name@company.com"
+                  {...register("email")}
+                  className="w-full rounded-2xl border border-[#374151]/10 bg-[#FAFAFC] px-4 py-3.5 outline-none focus:border-[#4C74D9] focus:ring-2 focus:ring-[#4C74D9]/10 text-sm transition-all duration-200"
+                />
+              </div>
 
-        {success && (
-          <p className="text-sm text-green-600">
-            {success}
-          </p>
-        )}
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-extrabold uppercase tracking-wider text-[#374151]/50">Password</label>
+                <input
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  {...register("password")}
+                  className="w-full rounded-2xl border border-[#374151]/10 bg-[#FAFAFC] px-4 py-3.5 outline-none focus:border-[#4C74D9] focus:ring-2 focus:ring-[#4C74D9]/10 text-sm transition-all duration-200"
+                />
+              </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="rounded-lg bg-blue-600 py-2 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
-        >
-          {isSubmitting ? "Logging in..." : "Login"}
-        </button>
+              {error && (
+                <div className="rounded-2xl border border-rose-200 bg-rose-50/50 p-4 text-xs font-medium text-rose-700">
+                  ⚠️ {error}
+                </div>
+              )}
 
-        <p className="text-center text-sm text-gray-600">
-          Don't have an account?{" "}
-          <a
-            href="/signup"
-            className="font-semibold text-blue-600 hover:underline"
-          >
-            Create one
-          </a>
-        </p>
-      </form>
+              {success && (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-4 text-xs font-medium text-emerald-700">
+                  ✨ {success}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full mt-4 flex items-center justify-center gap-2 rounded-full bg-[#4C74D9] hover:bg-[#2B4DA2] py-3.5 font-bold text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none cursor-pointer text-sm"
+              >
+                <LogIn className="h-4 w-4" />
+                {isSubmitting ? "Logging in..." : "Continue"}
+              </button>
+
+              <p className="text-center text-xs text-[#374151]/60 mt-6 font-semibold">
+                Don't have an account?{" "}
+                <Link
+                  href="/signup"
+                  className="font-bold text-[#4C74D9] hover:underline"
+                >
+                  Create workspace
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </motion.div>
     </main>
   );
-}
+}

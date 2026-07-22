@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma";
+import { generateEmbedding } from "../services/embedding.service";
 
 const sampleFeedbacks = [
   {
@@ -130,12 +131,20 @@ async function seed() {
           }
         });
 
-        const dummyVector = Array.from({ length: 3072 }, () => Math.random() - 0.5);
+        let vector;
+        try {
+          vector = await generateEmbedding(item.content);
+          await new Promise((resolve) => setTimeout(resolve, 300)); // Rate limit buffer
+        } catch (e) {
+          const dummyVector = Array.from({ length: 3072 }, () => Math.random() - 0.5);
+          const magnitude = Math.sqrt(dummyVector.reduce((sum, val) => sum + val * val, 0));
+          vector = dummyVector.map((val) => val / (magnitude || 1));
+        }
 
         await prisma.embedding.create({
           data: {
             feedbackId: fb.id,
-            vector: dummyVector,
+            vector,
           }
         });
       }

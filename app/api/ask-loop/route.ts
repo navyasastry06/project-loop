@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-
+import { handleApiError } from "@/utils/api-error";
 import { getCurrentSession } from "@/lib/session";
 import { askLoop } from "@/services/ask-loop.service";
 
@@ -36,16 +36,6 @@ export async function POST(request: Request) {
       ...result,
     });
   } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to answer question.",
-      },
-      {
-        status: 500,
-      }
-    );
+    return handleApiError(error, "Failed to answer question.");
   }
 }
