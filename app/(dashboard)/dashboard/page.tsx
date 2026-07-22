@@ -290,7 +290,7 @@ export default function DashboardPage() {
         {/* Card 1 */}
         <motion.div 
           whileHover={{ y: -4, scale: 1.015 }}
-          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-gradient-to-br from-[#FFF6D6] to-white/40 p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
+          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-[#FFF6D6] dark:bg-[#1F2D54] p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
         >
           <div className="flex justify-between items-center">
             <span className="text-xs font-black uppercase tracking-wider text-[#2B4DA2]/80">Total Logs</span>
@@ -309,7 +309,7 @@ export default function DashboardPage() {
         {/* Card 2 */}
         <motion.div 
           whileHover={{ y: -4, scale: 1.015 }}
-          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-gradient-to-br from-[#D8C4FF] to-white/40 p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
+          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-[#D8C4FF] dark:bg-[#2F2A4A] p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
         >
           <div className="flex justify-between items-center">
             <span className="text-xs font-black uppercase tracking-wider text-[#2B4DA2]/80">Positive</span>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
         {/* Card 3 */}
         <motion.div 
           whileHover={{ y: -4, scale: 1.015 }}
-          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-gradient-to-br from-[#FFF6D6] to-white/40 p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
+          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-[#FFF6D6] dark:bg-[#1F2D54] p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
         >
           <div className="flex justify-between items-center">
             <span className="text-xs font-black uppercase tracking-wider text-[#2B4DA2]/80">Neutral</span>
@@ -347,7 +347,7 @@ export default function DashboardPage() {
         {/* Card 4 */}
         <motion.div 
           whileHover={{ y: -4, scale: 1.015 }}
-          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-gradient-to-br from-[#F8B4D9] to-white/40 p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
+          className="relative overflow-hidden rounded-[24px] border border-[#2B4DA2]/10 bg-[#F8B4D9] dark:bg-[#F8B4D9] p-6 text-left shadow-xs flex flex-col justify-between min-h-[140px] card-hover"
         >
           <div className="flex justify-between items-center">
             <span className="text-xs font-black uppercase tracking-wider text-[#2B4DA2]/80">Negative</span>

@@ -107,7 +107,7 @@ export default function VoCPage() {
         <button
           onClick={handleRefresh}
           disabled={refreshing}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#4C74D9] to-[#2B4DA2] text-white hover:shadow-lg hover:scale-102 active:scale-98 transition-all disabled:opacity-50 cursor-pointer text-sm font-semibold border border-white/10"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#4C74D9] hover:bg-[#2B4DA2] text-white hover:shadow-lg hover:scale-102 active:scale-98 transition-all disabled:opacity-50 cursor-pointer text-sm font-semibold border border-white/10"
         >
           <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
           {refreshing ? "Re-analyzing..." : "Refresh Report"}
@@ -134,7 +134,7 @@ export default function VoCPage() {
           {/* Executive Summary Card */}
           <motion.div
             variants={itemVariants}
-            className="card-hover p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-gradient-to-br from-[#FFF6D6] via-[#FAFAFC] to-[#F8B4D9]/20 dark:from-[#212f4d] dark:to-[#15223F] shadow-sm"
+            className="card-hover p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FFF6D6] dark:bg-[#1F2D54] shadow-sm"
           >
             <h2 className="text-lg font-extrabold text-[#2B4DA2] dark:text-white mb-2 flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-[#4C74D9]" />
@@ -151,14 +151,14 @@ export default function VoCPage() {
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
             {/* Total feedback card */}
-            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC]/60 dark:bg-[#1C2C4E]/60 backdrop-blur-md">
+            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC] dark:bg-[#1C2C4E]">
               <span className="text-xs font-bold text-[#2B4DA2]/60 dark:text-[#FAFAFC]/60 uppercase tracking-wider">Total Feedback Logs</span>
               <h3 className="text-4xl font-black text-[#2B4DA2] dark:text-white mt-2">{data.totalAnalyzed}</h3>
               <p className="text-xs text-[#374151]/80 dark:text-[#FAFAFC]/80 mt-1 font-medium">Categorized & vector-mapped logs in active workspace</p>
             </div>
 
             {/* Sentiment breakdown card */}
-            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC]/60 dark:bg-[#1C2C4E]/60 backdrop-blur-md md:col-span-2">
+            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC] dark:bg-[#1C2C4E] md:col-span-2">
               <span className="text-xs font-bold text-[#2B4DA2]/60 dark:text-[#FAFAFC]/60 uppercase tracking-wider block mb-3">Overall Sentiment Breakdown</span>
               <div className="grid grid-cols-3 gap-4">
                 <div className="p-3.5 rounded-xl bg-green-50 dark:bg-green-950/20 border border-green-100 dark:border-green-900/30 text-center">
@@ -171,7 +171,7 @@ export default function VoCPage() {
                 </div>
                 <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 text-center">
                   <span className="text-xs font-bold text-red-700 dark:text-red-400">Negative</span>
-                  <div className="text-xl font-black text-red-800 dark:text-red-300 mt-1">{data.sentimentBreakdown.negative}</div>
+                  <div className="text-xl font-black text-red-800 dark:text-green-300 mt-1">{data.sentimentBreakdown.negative}</div>
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function VoCPage() {
             className="grid grid-cols-1 lg:grid-cols-3 gap-6"
           >
             {/* Top Issues Card */}
-            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC]/60 dark:bg-[#1C2C4E]/60 backdrop-blur-md flex flex-col">
+            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC] dark:bg-[#1C2C4E] flex flex-col">
               <h3 className="text-md font-extrabold text-[#2B4DA2] dark:text-white mb-4 flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-red-500" />
                 Critical Issues & Pain Points
@@ -199,7 +199,7 @@ export default function VoCPage() {
             </div>
 
             {/* Positive Highlights Card */}
-            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC]/60 dark:bg-[#1C2C4E]/60 backdrop-blur-md flex flex-col">
+            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC] dark:bg-[#1C2C4E] flex flex-col">
               <h3 className="text-md font-extrabold text-[#2B4DA2] dark:text-white mb-4 flex items-center gap-2">
                 <ThumbsUp className="h-5 w-5 text-green-600" />
                 Positive Highlights & Praises
@@ -215,7 +215,7 @@ export default function VoCPage() {
             </div>
 
             {/* Actionable Recommendations Card */}
-            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC]/60 dark:bg-[#1C2C4E]/60 backdrop-blur-md flex flex-col">
+            <div className="p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FAFAFC] dark:bg-[#1C2C4E] flex flex-col">
               <h3 className="text-md font-extrabold text-[#2B4DA2] dark:text-white mb-4 flex items-center gap-2">
                 <ListChecks className="h-5 w-5 text-[#4C74D9]" />
                 Actionable Recommendations

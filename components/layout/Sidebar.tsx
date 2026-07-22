@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -38,6 +38,19 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsCollapsed(false);
+      } else {
+        setIsCollapsed(true);
+      }
+    };
+    handleResize(); // Initialize on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const role = session?.user?.role;
 
   const filteredNav = navItems.filter((item) => {
@@ -71,7 +84,7 @@ export default function Sidebar() {
 
       {/* Sidebar Aside */}
       <aside
-        className={`fixed inset-y-0 right-0 z-40 flex h-screen flex-col bg-[#FFF6D6] dark:bg-[#15223F] text-[#374151] dark:text-[#FAFAFC] border-l border-[#2B4DA2]/15 dark:border-white/10 transition-all duration-350 ease-in-out md:static ${
+        className={`fixed inset-y-0 right-0 z-40 flex h-[100dvh] flex-col bg-[#FFF6D6] dark:bg-[#15223F] text-[#374151] dark:text-[#FAFAFC] border-l border-[#2B4DA2]/15 dark:border-white/10 transition-all duration-350 ease-in-out md:static ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } md:translate-x-0 ${isCollapsed ? "w-22" : "w-68"}`}
       >

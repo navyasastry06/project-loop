@@ -46,21 +46,21 @@ const consoleQAs = [
 ];
 
 const features = [
-  { title: "Secure Login", desc: "Users can securely log into the platform based on their role (Admin, Analyst, or Viewer).", icon: ShieldCheck, color: "bg-gradient-to-br from-[#FFF6D6] to-[#FAFAFC]/40" },
-  { title: "Analytics Dashboard", desc: "Provides a complete overview of customer feedback, including total feedback, sentiment breakdown, recent logs, and AI-generated insights.", icon: BarChart3, color: "bg-gradient-to-br from-[#D8C4FF] to-[#FAFAFC]/40" },
-  { title: "Collect Customer Feedback", desc: "Allows users to manually add customer feedback from support tickets, emails, surveys, app reviews, live chat, or social media.", icon: MessageSquare, color: "bg-gradient-to-br from-[#F8B4D9] to-[#FAFAFC]/40" },
-  { title: "Manage Feedback Logs", desc: "View, edit, delete, search, and filter feedback records by status smoothly in the history panel.", icon: Sliders, color: "bg-gradient-to-br from-[#FFFFFF] to-[#FAFAFC]/40" },
-  { title: "Bulk Import Feedback", desc: "Import hundreds of customer feedback records at once using CSV files.", icon: UploadCloud, color: "bg-gradient-to-br from-[#FFF6D6] to-[#FAFAFC]/40" },
-  { title: "AI Feedback Analysis", desc: "Automatically analyzes every feedback and determines customer sentiment, category, and a short AI summary.", icon: BrainCircuit, color: "bg-gradient-to-br from-[#D8C4FF] to-[#FAFAFC]/40" },
-  { title: "Ask LOOP (AI Chat)", desc: "Ask questions in plain English ('What are customers complaining about?') and get answers based on own feedback.", icon: HelpCircle, color: "bg-gradient-to-br from-[#F8B4D9] to-[#FAFAFC]/40" },
-  { title: "Semantic Search", desc: "Searches feedback by meaning, not just keywords (e.g. searching 'slow dashboard' matches 'reports take too long').", icon: Search, color: "bg-gradient-to-br from-[#FFFFFF] to-[#FAFAFC]/40" },
-  { title: "Theme Detection", desc: "Automatically groups similar feedback into common themes such as Performance, Billing, Authentication, and UI.", icon: Layers, color: "bg-gradient-to-br from-[#FFF6D6] to-[#FAFAFC]/40" },
-  { title: "Theme Trends", desc: "Shows which customer issues are increasing, decreasing, or most common over time using trend lines.", icon: TrendingUp, color: "bg-gradient-to-br from-[#D8C4FF] to-[#FAFAFC]/40" },
-  { title: "Voice of Customer (VoC)", desc: "Generates an executive summary showing major concerns, positive feedback, emerging issues, and AI recommendations.", icon: Sparkles, color: "bg-gradient-to-br from-[#F8B4D9] to-[#FAFAFC]/40" },
-  { title: "AI Business Insights", desc: "Automatically identifies common customer pain points, frequently requested features, and areas needing improvement.", icon: BrainCircuit, color: "bg-gradient-to-br from-[#FFFFFF] to-[#FAFAFC]/40" },
-  { title: "Reports Archive", desc: "Generate AI-powered business reports that summarize customer feedback and insights.", icon: FileSpreadsheet, color: "bg-gradient-to-br from-[#FFF6D6] to-[#FAFAFC]/40" },
-  { title: "Export Reports", desc: "Download generated reports as PDF files for sharing with stakeholders.", icon: UploadCloud, color: "bg-gradient-to-br from-[#D8C4FF] to-[#FAFAFC]/40" },
-  { title: "Workspace Management", desc: "Supports organizations by keeping each company's data separate and secure.", icon: Layers, color: "bg-gradient-to-br from-[#F8B4D9] to-[#FAFAFC]/40" },
+  { title: "Secure Login", desc: "Users can securely log into the platform based on their role (Admin, Analyst, or Viewer).", icon: ShieldCheck, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
+  { title: "Analytics Dashboard", desc: "Provides a complete overview of customer feedback, including total feedback, sentiment breakdown, recent logs, and AI-generated insights.", icon: BarChart3, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
+  { title: "Collect Customer Feedback", desc: "Allows users to manually add customer feedback from support tickets, emails, surveys, app reviews, live chat, or social media.", icon: MessageSquare, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
+  { title: "Manage Feedback Logs", desc: "View, edit, delete, search, and filter feedback records by status smoothly in the history panel.", icon: Sliders, color: "bg-white dark:bg-[#1F2D54]" },
+  { title: "Bulk Import Feedback", desc: "Import hundreds of customer feedback records at once using CSV files.", icon: UploadCloud, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
+  { title: "AI Feedback Analysis", desc: "Automatically analyzes every feedback and determines customer sentiment, category, and a short AI summary.", icon: BrainCircuit, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
+  { title: "Ask LOOP (AI Chat)", desc: "Ask questions in plain English ('What are customers complaining about?') and get answers based on own feedback.", icon: HelpCircle, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
+  { title: "Semantic Search", desc: "Searches feedback by meaning, not just keywords (e.g. searching 'slow dashboard' matches 'reports take too long').", icon: Search, color: "bg-white dark:bg-[#1F2D54]" },
+  { title: "Theme Detection", desc: "Automatically groups similar feedback into common themes such as Performance, Billing, Authentication, and UI.", icon: Layers, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
+  { title: "Theme Trends", desc: "Shows which customer issues are increasing, decreasing, or most common over time using trend lines.", icon: TrendingUp, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
+  { title: "Voice of Customer (VoC)", desc: "Generates an executive summary showing major concerns, positive feedback, emerging issues, and AI recommendations.", icon: Sparkles, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
+  { title: "AI Business Insights", desc: "Automatically identifies common customer pain points, frequently requested features, and areas needing improvement.", icon: BrainCircuit, color: "bg-white dark:bg-[#1F2D54]" },
+  { title: "Reports Archive", desc: "Generate AI-powered business reports that summarize customer feedback and insights.", icon: FileSpreadsheet, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
+  { title: "Export Reports", desc: "Download generated reports as PDF files for sharing with stakeholders.", icon: UploadCloud, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
+  { title: "Workspace Management", desc: "Supports organizations by keeping each company's data separate and secure.", icon: Layers, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
 ];
 
 export default function Home() {
@@ -98,7 +98,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#FAFAFC] text-[#374151] font-sans selection:bg-[#4C74D9] selection:text-white overflow-x-hidden editorial-dots paper-texture">
       
       {/* Header Slide Style */}
-      <header className="border-b border-[#2B4DA2]/10 bg-[#FAFAFC]/90 backdrop-blur-md sticky top-0 z-50 transition-colors">
+      <header className="border-b border-[#2B4DA2]/10 bg-[#FAFAFC] sticky top-0 z-50 transition-colors">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl font-black tracking-tight text-[#2B4DA2] flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function Home() {
         </section>
 
         {/* SLIDE 2: Interactive Pitch & QA Console */}
-        <section className="bg-gradient-to-br from-[#FFF6D6] to-[#FAFAFC]/50 rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-12 relative overflow-hidden">
+        <section className="bg-[#FFF6D6] dark:bg-[#1F2D54] rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#F8B4D9]/20 rounded-full blur-3xl pointer-events-none" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -323,7 +323,7 @@ export default function Home() {
         </section>
 
         {/* SLIDE 4: Call to action with illustrations */}
-        <section className="bg-gradient-to-br from-[#D8C4FF] to-[#FAFAFC]/50 rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-16 relative overflow-hidden text-center">
+        <section className="bg-[#D8C4FF] dark:bg-[#2F2A4A] rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-16 relative overflow-hidden text-center">
           <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#F8B4D9]/30 rounded-full blur-2xl pointer-events-none" />
           <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#FFF6D6]/40 rounded-full blur-2xl pointer-events-none" />
           
