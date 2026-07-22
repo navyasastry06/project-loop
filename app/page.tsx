@@ -46,21 +46,21 @@ const consoleQAs = [
 ];
 
 const features = [
-  { title: "Secure Login", desc: "Users can securely log into the platform based on their role (Admin, Analyst, or Viewer).", icon: ShieldCheck, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
-  { title: "Analytics Dashboard", desc: "Provides a complete overview of customer feedback, including total feedback, sentiment breakdown, recent logs, and AI-generated insights.", icon: BarChart3, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
-  { title: "Collect Customer Feedback", desc: "Allows users to manually add customer feedback from support tickets, emails, surveys, app reviews, live chat, or social media.", icon: MessageSquare, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
-  { title: "Manage Feedback Logs", desc: "View, edit, delete, search, and filter feedback records by status smoothly in the history panel.", icon: Sliders, color: "bg-white dark:bg-[#1F2D54]" },
-  { title: "Bulk Import Feedback", desc: "Import hundreds of customer feedback records at once using CSV files.", icon: UploadCloud, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
-  { title: "AI Feedback Analysis", desc: "Automatically analyzes every feedback and determines customer sentiment, category, and a short AI summary.", icon: BrainCircuit, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
-  { title: "Ask LOOP (AI Chat)", desc: "Ask questions in plain English ('What are customers complaining about?') and get answers based on own feedback.", icon: HelpCircle, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
-  { title: "Semantic Search", desc: "Searches feedback by meaning, not just keywords (e.g. searching 'slow dashboard' matches 'reports take too long').", icon: Search, color: "bg-white dark:bg-[#1F2D54]" },
-  { title: "Theme Detection", desc: "Automatically groups similar feedback into common themes such as Performance, Billing, Authentication, and UI.", icon: Layers, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
-  { title: "Theme Trends", desc: "Shows which customer issues are increasing, decreasing, or most common over time using trend lines.", icon: TrendingUp, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
-  { title: "Voice of Customer (VoC)", desc: "Generates an executive summary showing major concerns, positive feedback, emerging issues, and AI recommendations.", icon: Sparkles, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
-  { title: "AI Business Insights", desc: "Automatically identifies common customer pain points, frequently requested features, and areas needing improvement.", icon: BrainCircuit, color: "bg-white dark:bg-[#1F2D54]" },
-  { title: "Reports Archive", desc: "Generate AI-powered business reports that summarize customer feedback and insights.", icon: FileSpreadsheet, color: "bg-[#FFF6D6] dark:bg-[#1F2D54]" },
-  { title: "Export Reports", desc: "Download generated reports as PDF files for sharing with stakeholders.", icon: UploadCloud, color: "bg-[#D8C4FF] dark:bg-[#2F2A4A]" },
-  { title: "Workspace Management", desc: "Supports organizations by keeping each company's data separate and secure.", icon: Layers, color: "bg-[#F8B4D9] dark:bg-[#F8B4D9]" },
+  { title: "Secure Login", desc: "Users can securely log into the platform based on their role (Admin, Analyst, or Viewer).", icon: ShieldCheck, color: "bg-[#FFF6D6]/35 dark:bg-[#1F2D54]/35" },
+  { title: "Analytics Dashboard", desc: "Provides a complete overview of customer feedback, including total feedback, sentiment breakdown, recent logs, and AI-generated insights.", icon: BarChart3, color: "bg-[#D8C4FF]/35 dark:bg-[#2F2A4A]/35" },
+  { title: "Collect Customer Feedback", desc: "Allows users to manually add customer feedback from support tickets, emails, surveys, app reviews, live chat, or social media.", icon: MessageSquare, color: "bg-[#F8B4D9]/35 dark:bg-[#F8B4D9]/35" },
+  { title: "Manage Feedback Logs", desc: "View, edit, delete, search, and filter feedback records by status smoothly in the history panel.", icon: Sliders, color: "bg-white dark:bg-[#1F2D54]/35" },
+  { title: "Bulk Import Feedback", desc: "Import hundreds of customer feedback records at once using CSV files.", icon: UploadCloud, color: "bg-[#FFF6D6]/35 dark:bg-[#1F2D54]/35" },
+  { title: "AI Feedback Analysis", desc: "Automatically analyzes every feedback and determines customer sentiment, category, and a short AI summary.", icon: BrainCircuit, color: "bg-[#D8C4FF]/35 dark:bg-[#2F2A4A]/35" },
+  { title: "Ask LOOP (AI Chat)", desc: "Ask questions in plain English ('What are customers complaining about?') and get answers based on own feedback.", icon: HelpCircle, color: "bg-[#F8B4D9]/35 dark:bg-[#F8B4D9]/35" },
+  { title: "Semantic Search", desc: "Searches feedback by meaning, not just keywords (e.g. searching 'slow dashboard' matches 'reports take too long').", icon: Search, color: "bg-white dark:bg-[#1F2D54]/35" },
+  { title: "Theme Detection", desc: "Automatically groups similar feedback into common themes such as Performance, Billing, Authentication, and UI.", icon: Layers, color: "bg-[#FFF6D6]/35 dark:bg-[#1F2D54]/35" },
+  { title: "Theme Trends", desc: "Shows which customer issues are increasing, decreasing, or most common over time using trend lines.", icon: TrendingUp, color: "bg-[#D8C4FF]/35 dark:bg-[#2F2A4A]/35" },
+  { title: "Voice of Customer (VoC)", desc: "Generates an executive summary showing major concerns, positive feedback, emerging issues, and AI recommendations.", icon: Sparkles, color: "bg-[#F8B4D9]/35 dark:bg-[#F8B4D9]/35" },
+  { title: "AI Business Insights", desc: "Automatically identifies common customer pain points, frequently requested features, and areas needing improvement.", icon: BrainCircuit, color: "bg-white dark:bg-[#1F2D54]/35" },
+  { title: "Reports Archive", desc: "Generate AI-powered business reports that summarize customer feedback and insights.", icon: FileSpreadsheet, color: "bg-[#FFF6D6]/35 dark:bg-[#1F2D54]/35" },
+  { title: "Export Reports", desc: "Download generated reports as PDF files for sharing with stakeholders.", icon: UploadCloud, color: "bg-[#D8C4FF]/35 dark:bg-[#2F2A4A]/35" },
+  { title: "Workspace Management", desc: "Supports organizations by keeping each company's data separate and secure.", icon: Layers, color: "bg-[#F8B4D9]/35 dark:bg-[#F8B4D9]/35" },
 ];
 
 export default function Home() {

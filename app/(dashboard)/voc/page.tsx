@@ -134,7 +134,7 @@ export default function VoCPage() {
           {/* Executive Summary Card */}
           <motion.div
             variants={itemVariants}
-            className="card-hover p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FFF6D6] dark:bg-[#1F2D54] shadow-sm"
+            className="card-hover p-6 rounded-2xl border border-[#2B4DA2]/10 dark:border-white/10 bg-[#FFF6D6]/35 dark:bg-[#1F2D54]/35 shadow-sm"
           >
             <h2 className="text-lg font-extrabold text-[#2B4DA2] dark:text-white mb-2 flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-[#4C74D9]" />
