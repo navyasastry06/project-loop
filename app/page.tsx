@@ -4,22 +4,23 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Sparkles, 
-  ArrowRight, 
-  MessageSquare, 
-  Search, 
-  ShieldCheck, 
-  Layers, 
-  UploadCloud, 
-  BarChart3, 
-  BrainCircuit, 
-  TrendingUp, 
-  FileSpreadsheet, 
-  Sliders, 
+import {
+  Sparkles,
+  ArrowRight,
+  MessageSquare,
+  Search,
+  ShieldCheck,
+  Layers,
+  UploadCloud,
+  BarChart3,
+  BrainCircuit,
+  TrendingUp,
+  FileSpreadsheet,
+  Sliders,
   HelpCircle,
   Stars,
-  CircleDot
+  CircleDot,
+  AlignCenter
 } from "lucide-react";
 
 const consoleQAs = [
@@ -97,7 +98,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFC] text-[#374151] font-sans selection:bg-[#4C74D9] selection:text-white overflow-x-hidden editorial-dots paper-texture">
-      
+
       {/* Header Slide Style */}
       <header className="border-b border-[#2B4DA2]/10 bg-[#FFF6D6] sticky top-0 z-50 transition-colors">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -131,10 +132,10 @@ export default function Home() {
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-12 md:py-20 space-y-24 md:space-y-36">
-        
+
         {/* SLIDE 1: Hero Section */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[500px]">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -168,7 +169,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -177,10 +178,10 @@ export default function Home() {
             {/* Organic background shapes */}
             <div className="absolute top-10 right-10 w-48 h-48 bg-[#D8C4FF] rounded-full blur-3xl opacity-60 z-0" />
             <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#F8B4D9] rounded-full blur-3xl opacity-50 z-0" />
-            
+
             <div className="relative z-10 animate-float">
-              <img 
-                src="/1.png" 
+              <img
+                src="/1.png"
                 alt="LOOP Editorial Vector"
                 className="max-h-[420px] object-contain rounded-[32px]"
               />
@@ -191,23 +192,23 @@ export default function Home() {
         {/* SLIDE 2: Interactive Pitch & QA Console */}
         <section className="bg-[#FFF6D6] dark:bg-[#1F2D54] rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#F8B4D9]/20 rounded-full blur-3xl pointer-events-none" />
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
+
             {/* Pitch Text */}
             <div className="lg:col-span-5 space-y-6 text-left relative z-10">
               <h2 className="text-4xl font-black text-[#2B4DA2] leading-tight font-heading">
                 Semantic AI <br />
                 Query Engine
               </h2>
-              <p className="text-sm text-[#374151] leading-relaxed font-sans">
+              <p className="text-lg text-[#374151] leading-relaxed font-sans">
                 LOOP uses vector database embeddings to find matching items by concept and meaning, bypassing the limitations of simple keywords.
               </p>
               <div className="flex justify-start">
-                <img 
-                  src="/2.png" 
+                <img
+                  src="/6.png"
                   alt="Feature illustration"
-                  className="max-h-[140px] object-contain animate-float"
+                  className="max-w-[220px] object-contain animate-float"
                 />
               </div>
             </div>
@@ -233,11 +234,10 @@ export default function Home() {
                       <button
                         key={idx}
                         onClick={() => setActiveIdx(idx)}
-                        className={`text-left rounded-xl px-4 py-3.5 border transition-all cursor-pointer text-xs font-bold font-sans flex items-center gap-2 ${
-                          activeIdx === idx
-                            ? "border-[#4C74D9] bg-[#4C74D9]/5 text-[#4C74D9]"
-                            : "border-[#374151]/10 bg-transparent text-[#374151]/75 hover:border-[#374151]/20 hover:bg-[#FAFAFC]"
-                        }`}
+                        className={`text-left rounded-xl px-4 py-3.5 border transition-all cursor-pointer text-xs font-bold font-sans flex items-center gap-2 ${activeIdx === idx
+                          ? "border-[#4C74D9] bg-[#4C74D9]/5 text-[#4C74D9]"
+                          : "border-[#374151]/10 bg-transparent text-[#374151]/75 hover:border-[#374151]/20 hover:bg-[#FAFAFC]"
+                          }`}
                       >
                         <QAIcon className="h-4 w-4" />
                         <span>{qa.q}</span>
@@ -286,7 +286,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-black text-[#2B4DA2] tracking-tight font-heading">
               Platform Overview
             </h2>
-            <p className="text-sm text-[#374151] leading-relaxed font-sans">
+            <p className="text-lg text-[#374151] leading-relaxed font-sans">
               LOOP classifies, extracts summaries, and transforms customer reviews into executable product feedback loops.
             </p>
           </div>
@@ -321,38 +321,40 @@ export default function Home() {
         </section>
 
         {/* SLIDE 4: Call to action with illustrations */}
-        <section className="bg-[#D8C4FF] dark:bg-[#2F2A4A] rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-16 relative overflow-hidden text-center">
+        <section className="bg-[#D8C4FF] dark:bg-[#2F2A4A] rounded-[40px] border border-[#2B4DA2]/10 p-8 md:p-16 relative overflow-hidden text-left">
           <div className="absolute -top-10 -right-10 w-64 h-64 bg-[#F8B4D9]/30 rounded-full blur-2xl pointer-events-none" />
           <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#FFF6D6]/40 rounded-full blur-2xl pointer-events-none" />
-          
-          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <h2 className="text-4xl md:text-6xl font-black text-[#2B4DA2] tracking-tight leading-none font-heading">
-              Ready to present <br />your insights?
-            </h2>
-            <p className="text-base text-[#2B4DA2]/90 leading-relaxed font-sans max-w-lg mx-auto">
-              Get started with LOOP AI today. No credit card required. Build company workspaces in less than 30 seconds.
-            </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href="/signup"
-                className="rounded-full bg-[#4C74D9] hover:bg-[#2B4DA2] px-10 py-4 font-bold text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer text-base"
-              >
-                Create Free Workspace
-              </Link>
-              <Link
-                href="/login"
-                className="rounded-full bg-[#FAFAFC] hover:bg-[#FAFAFC]/90 border border-[#2B4DA2]/10 px-10 py-4 font-bold text-[#2B4DA2] transition-all hover:-translate-y-0.5 cursor-pointer text-base"
-              >
-                Sign In Instead
-              </Link>
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-7 space-y-8">
+              <h2 className="text-4xl md:text-6xl font-black text-[#2B4DA2] tracking-tight leading-none font-heading">
+                Ready to present <br />your insights?
+              </h2>
+              <p className="text-base text-[#2B4DA2]/90 leading-relaxed font-sans max-w-lg">
+                Get started with LOOP AI today. No credit card required. Build company workspaces in less than 30 seconds.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-start items-center">
+                <Link
+                  href="/signup"
+                  className="rounded-full bg-[#4C74D9] hover:bg-[#2B4DA2] px-10 py-4 font-bold text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer text-base text-center"
+                >
+                  Create Free Workspace
+                </Link>
+                <Link
+                  href="/login"
+                  className="rounded-full bg-[#FAFAFC] hover:bg-[#FAFAFC]/90 border border-[#2B4DA2]/10 px-10 py-4 font-bold text-[#2B4DA2] transition-all hover:-translate-y-0.5 cursor-pointer text-base text-center"
+                >
+                  Sign In Instead
+                </Link>
+              </div>
             </div>
-            
-            <div className="pt-6 flex justify-center items-center">
-              <img 
-                src="/3.png" 
-                alt="Success presentation illustration"
-                className="max-h-[180px] object-contain animate-float"
+
+            <div className="lg:col-span-5 flex justify-center items-center relative z-10 animate-float">
+              <img
+                src="/9.png"
+                alt="Presentation illustration"
+                className="max-h-[400px] object-contain rounded-2xl"
               />
             </div>
           </div>
