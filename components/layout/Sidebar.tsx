@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -46,7 +47,7 @@ export default function Sidebar() {
         setIsCollapsed(true);
       }
     };
-    handleResize(); // Initialize on mount
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -60,7 +61,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
+      
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -69,7 +70,7 @@ export default function Sidebar() {
         {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
 
-      {/* Backdrop */}
+     
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -82,13 +83,13 @@ export default function Sidebar() {
         )}
       </AnimatePresence>
 
-      {/* Sidebar Aside */}
+   
       <aside
         className={`fixed inset-y-0 right-0 z-40 flex h-[100dvh] flex-col bg-[#FFF6D6] dark:bg-[#15223F] text-[#374151] dark:text-[#FAFAFC] border-l border-[#2B4DA2]/15 dark:border-white/10 transition-all duration-350 ease-in-out md:static ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } md:translate-x-0 ${isCollapsed ? "w-22" : "w-68"}`}
       >
-        {/* Toggle Collapse Desktop button */}
+       
         <button
           type="button"
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -100,10 +101,25 @@ export default function Sidebar() {
         {/* Logo Section */}
         <div className={`py-6 border-b border-[#2B4DA2]/10 dark:border-white/10 ${isCollapsed ? "px-2 text-center" : "px-6"}`}>
           {isCollapsed ? (
-            <span className="text-2xl font-black text-[#4C74D9] block hover:rotate-12 transition-transform duration-300">L</span>
+            <div className="flex justify-center items-center">
+              <Image
+                src="/logo.png"
+                alt="LOOP AI Logo"
+                width={50}
+                height={50}
+                className="h-8 w-8 object-contain rounded-full hover:rotate-12 transition-transform duration-300"
+              />
+            </div>
           ) : (
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
+                <Image
+                  src="/logo.png"
+                  alt="LOOP AI Logo"
+                  width={45}
+                  height={45}
+                  className="h-7 w-7 object-contain rounded-full"
+                />
                 <span className="text-xl font-black text-[#4C74D9] dark:text-[#FAFAFC]">LOOP AI</span>
                 <span className="text-[10px] font-bold bg-[#D8C4FF] dark:bg-[#A98AE5] text-[#2B4DA2] dark:text-[#15223F] px-1.5 py-0.5 rounded-md">v1.0</span>
               </div>

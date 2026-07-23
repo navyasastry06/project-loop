@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import Input from "@/components/ui/Input";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { LogIn } from "lucide-react";
+
+import Image from "next/image";
 
 type LoginForm = {
   email: string;
@@ -76,37 +77,14 @@ export default function LoginPage() {
           </div>
 
           <div className="relative my-6 md:my-0 flex justify-center items-center z-10 animate-float">
-            <svg width="320" height="300" viewBox="0 0 320 300" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-h-[300px] w-full">
-              <defs>
-                <pattern id="grid-pattern" width="24" height="24" patternUnits="userSpaceOnUse">
-                  <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(43, 77, 162, 0.04)" strokeWidth="1"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid-pattern)" rx="24"/>
-              
-              <circle cx="160" cy="150" r="45" fill="#4C74D9" fillOpacity="0.08" stroke="#4C74D9" strokeWidth="1.5" strokeDasharray="3 3"/>
-              <circle cx="160" cy="150" r="30" fill="#4C74D9"/>
-              <path d="M152 150h16M160 142v16" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round"/>
-              
-              <line x1="80" y1="90" x2="135" y2="132" stroke="#4C74D9" strokeWidth="1.5" opacity="0.4"/>
-              <circle cx="80" cy="90" r="18" fill="#FFF6D6" stroke="#2B4DA2" strokeWidth="1.5"/>
-              <path d="M76 87h8v5h-5l-3 3v-8z" fill="none" stroke="#2B4DA2" strokeWidth="1.5" strokeLinejoin="round"/>
-              
-              <line x1="240" y1="90" x2="185" y2="132" stroke="#4C74D9" strokeWidth="1.5" opacity="0.4"/>
-              <circle cx="240" cy="90" r="18" fill="#F8B4D9" stroke="#2B4DA2" strokeWidth="1.5"/>
-              <circle cx="236" cy="88" r="1" fill="#2B4DA2"/>
-              <circle cx="244" cy="88" r="1" fill="#2B4DA2"/>
-              <path d="M236 93c1.2 1.5 3.8 1.5 5 0" stroke="#2B4DA2" strokeWidth="1.5" strokeLinecap="round"/>
-              
-              <line x1="80" y1="210" x2="135" y2="168" stroke="#4C74D9" strokeWidth="1.5" opacity="0.4"/>
-              <circle cx="80" cy="210" r="18" fill="#D8C4FF" stroke="#2B4DA2" strokeWidth="1.5"/>
-              <path d="M74 214v-6M80 214v-10M86 214v-5" stroke="#2B4DA2" strokeWidth="1.5" strokeLinecap="round"/>
-              
-              <line x1="240" y1="210" x2="185" y2="168" stroke="#4C74D9" strokeWidth="1.5" opacity="0.4"/>
-              <circle cx="240" cy="210" r="18" fill="#FFFFFF" stroke="#2B4DA2" strokeWidth="1.5"/>
-              <path d="M235 204h10v12h-10z" fill="none" stroke="#2B4DA2" strokeWidth="1.5"/>
-              <path d="M238 208h4M238 212h4" stroke="#2B4DA2" strokeWidth="1.5"/>
-            </svg>
+            <Image
+              src="/7.png"
+              alt="LOOP AI Dashboard Preview"
+              width={320}
+              height={300}
+              priority
+              className="max-h-[300px] w-auto object-contain rounded-2xl"
+            />
           </div>
 
           <div className="relative z-10 text-xs text-[#2B4DA2] font-bold font-sans">
@@ -158,7 +136,7 @@ export default function LoginPage() {
 
               {success && (
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-4 text-xs font-medium text-emerald-700">
-                  ✨ {success}
+                 {success}
                 </div>
               )}
 
@@ -172,7 +150,7 @@ export default function LoginPage() {
               </button>
 
               <p className="text-center text-xs text-[#374151]/60 mt-6 font-semibold">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
                   href="/signup"
                   className="font-bold text-[#4C74D9] hover:underline"
@@ -186,4 +164,4 @@ export default function LoginPage() {
       </motion.div>
     </main>
   );
-}
+}

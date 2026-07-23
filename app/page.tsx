@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sparkles, 
@@ -98,11 +99,17 @@ export default function Home() {
     <div className="min-h-screen bg-[#FAFAFC] text-[#374151] font-sans selection:bg-[#4C74D9] selection:text-white overflow-x-hidden editorial-dots paper-texture">
       
       {/* Header Slide Style */}
-      <header className="border-b border-[#2B4DA2]/10 bg-[#FAFAFC] sticky top-0 z-50 transition-colors">
+      <header className="border-b border-[#2B4DA2]/10 bg-[#FFF6D6] sticky top-0 z-50 transition-colors">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl font-black tracking-tight text-[#2B4DA2] flex items-center gap-2">
-              <span className="text-xl bg-[#4C74D9] text-white h-8 w-8 rounded-full flex items-center justify-center">L</span>
+              <Image
+                src="/logo.png"
+                alt="LOOP AI Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain rounded-full"
+              />
               <span>LOOP AI</span>
             </span>
           </div>
