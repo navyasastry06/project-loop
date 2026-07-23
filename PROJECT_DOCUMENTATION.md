@@ -54,7 +54,7 @@ graph TD
     API <--> |ORM Queries| DB[(PostgreSQL Database)]
     API <--> |API Requests| GeminiAPI[Google Gemini API]
     
-    subgraph Frontend Components
+    subgraph FrontendComponents ["Frontend Components"]
         Home[Landing Page]
         Dash[Dashboard View]
         VOC[Voice of Customer View]
@@ -63,7 +63,7 @@ graph TD
         Theme[Themes View]
     end
     
-    subgraph Backend Services
+    subgraph BackendServices ["Backend Services"]
         AuthSvc[Auth Service]
         FeedbackSvc[Feedback Service]
         AISvc[AI Analysis Service]
@@ -72,9 +72,9 @@ graph TD
         VOCSvc[VOC Analytics Service]
     end
 
-    UserClient --> Frontend Components
-    Frontend Components --> API
-    API --> Backend Services
+    UserClient --> FrontendComponents
+    FrontendComponents --> API
+    API --> BackendServices
     
     AISvc --> |Sentiment, Categories, Summaries| GeminiAPI
     EmbeddingSvc --> |gemini-embedding-001| GeminiAPI
