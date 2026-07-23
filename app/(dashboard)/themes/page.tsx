@@ -281,7 +281,7 @@ export default function ThemesPage() {
                         </span>
                       </div>
 
-                      <p className="text-[11px] text-[#374151]/65 font-medium leading-relaxed font-sans line-clamp-2 min-h-[2.5rem]">
+                      <p className="text-[12px] text-[#374151]/65 font-medium leading-relaxed font-sans line-clamp-2 min-h-[2.5rem]">
                         {theme.description || "No topic mapping description has been set up."}
                       </p>
                     </div>

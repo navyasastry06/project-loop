@@ -170,7 +170,7 @@ export default function AskLoopPage() {
                         {msg.references.map((ref, rIdx) => (
                           <div
                             key={ref.id}
-                            className="bg-white rounded-xl p-3 border border-[#2B4DA2]/10 text-[11px] space-y-2 relative"
+                            className="bg-white rounded-xl p-3 border border-[#2B4DA2]/10 text-[13px] space-y-2 relative"
                           >
                             <span className="absolute top-2 right-2 text-[8px] font-black bg-[#D8C4FF] text-[#2B4DA2] px-2 py-0.5 rounded-full border border-[#2B4DA2]/10">
                               {(ref.score * 100).toFixed(0)}% concept match
